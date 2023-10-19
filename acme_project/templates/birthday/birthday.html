@@ -6,7 +6,8 @@
     Калькулятор ожидания дня рождения
   </div>
   <div class="card-body">
-    <form>
+    <form method="post">
+      {% csrf_token %}
       <table>
           {% bootstrap_form form %}   
       </table>
@@ -14,12 +15,15 @@
     </form>
   </div>
 </div>
-  {% with data=request.GET %}
+  {% with data=form.instance %}
   {% if form.is_valid %}
-    <h2>Привет, {{ data.first_name }} {{ data.last_name }}</h2>
+  <p></p>
+    <h3>ID новой записи в БД: {{ data.id }}</h3>
+    <hr>
+    <h2>Привет, {{ data.first_name }} {{ data.last_name }} - {{ data.birthday }}</h2>
     <!-- Если до дня рождения 0 дней... -->
     {% if birthday_countdown == 0 %}
-      <!-- ...выводим поздравление: -->
+      <!-- ...выводим поздрав ление: -->
       С днём рождения!
     <!-- Если до дня рождения не ноль дней... -->
     {% else %}
