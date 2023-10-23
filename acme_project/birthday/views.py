@@ -1,32 +1,43 @@
 # birthday/views.py 
-from django.shortcuts import render
+from typing import Any
 
-from .models import Birthday
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
+
 from .forms import BirthdayForm
-# Импортируем из utils.py функцию для подсчёта дней.
+from .models import Birthday
 from .utils import calculate_birthday_countdown
 
 
-def birthday(request):
-    form = BirthdayForm(request.POST or None)
-    # Создаём словарь контекста сразу после инициализации формы.
-    context = {'form': form}
-    # Если форма валидна...
-    if form.is_valid():
-        # ...вызовем функцию подсчёта дней:
-        birthday_countdown = calculate_birthday_countdown(
-            # ...и передаём в неё дату из словаря cleaned_data.
-            form.cleaned_data['birthday']
+class BirthdayListView(ListView):
+    model = Birthday
+    ordering = 'id'
+    paginate_by = 10
+
+
+class BirthdayCreateView(CreateView):
+    form_class = BirthdayForm
+    model = Birthday
+
+
+class BirthdayUpdateView(UpdateView):
+    form_class = BirthdayForm
+    model = Birthday
+
+
+class BirthdayDeleteView(DeleteView):
+    form_class = BirthdayForm
+    model = Birthday
+
+
+class BirthdayDetailView(DetailView):
+    model = Birthday
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+
+        context['birthday_countdown'] = calculate_birthday_countdown(
+            self.object.birthday
         )
-        form.save()
-        # Обновляем словарь контекста: добавляем в него новый элемент.
-        context.update({'birthday_countdown': birthday_countdown})
-    return render(request, 'birthday/birthday.html', context)
 
-
-def birthday_list(request):
-    # Получаем все объекты модели Birthday из БД.
-    birthdays = Birthday.objects.all()
-    # Передаём их в контекст шаблона.
-    context = {'birthdays': birthdays}
-    return render(request, 'birthday/birthday_list.html', context)
+        return context
