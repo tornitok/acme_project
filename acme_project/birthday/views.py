@@ -1,4 +1,4 @@
-# birthday/views.py 
+# birthday/views.py
 from typing import Any
 
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,

@@ -77,6 +77,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+
+EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
+
 LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = 'UTC'
