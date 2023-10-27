@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'birthday.apps.BirthdayConfig',
     'pages.apps.PagesConfig',
+    'users.apps.UsersConfig',
     'django_cleanup.apps.CleanupConfig',
 ]
 
@@ -78,6 +79,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LOGIN_REDIRECT_URL = 'pages:homepage'
+
+LOGIN_URL = 'login'
 
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 

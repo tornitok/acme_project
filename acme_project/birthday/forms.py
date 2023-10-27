@@ -1,11 +1,11 @@
 # birthday/forms.py
 from django import forms
 from django.core.exceptions import ValidationError
+from django.core.mail import send_mail
 from django.urls import reverse
 
 # Импортируем класс модели Birthday.
 from .models import Birthday
-from django.core.mail import send_mail
 
 # Множество с именами участников Ливерпульской четвёрки.
 BEATLES = {'Джон Леннон', 'Пол Маккартни', 'Джордж Харрисон', 'Ринго Старр'}
