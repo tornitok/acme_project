@@ -1,3 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import redirect
 
-# Create your views here.
+
+def birthday_create(request):
+    if not request.user.is_authentificated:
+        return redirect('login')
